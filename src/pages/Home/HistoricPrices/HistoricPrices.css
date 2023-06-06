@@ -1,0 +1,34 @@
+.tables-container {
+  display: flex;
+  padding: 0 1rem;
+  gap: 2rem;
+}
+
+.data-table-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 95%;
+  padding: 1rem;
+  background: #212839;
+}
+
+.table-title {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 0.5rem 0;
+  font-size: 1.5rem;
+  color: #fff;
+  background: #212839;
+}
+
+.table-container {
+  max-height: 40rem;
+  overflow-y: scroll;
+}
+
+.chart-container {
+  padding: 1rem;
+}

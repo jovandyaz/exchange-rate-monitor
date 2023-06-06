@@ -1,0 +1,6 @@
+.banner-container {
+    display: flex;
+    margin: 1rem;
+    border: 1px solid #aaa;
+    background: #000;
+}
