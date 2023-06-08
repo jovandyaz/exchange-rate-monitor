@@ -1,10 +1,9 @@
 import { ReactElement, useState } from "react";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { ApiCallResult, CurrencyPair } from "../../types/api.types";
 import { useApiCall } from "../../hooks";
 import { Tabs } from "./Tabs";
-import { Banner } from "./Banner";
-import { HistoricPrices } from "./HistoricPrices";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import ExchangeRateView from "./ExchangeRateView/ExchangeRateView";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const DEFAULT_CURRENCY_ID = "EURUSD";
@@ -42,8 +41,7 @@ const Home = (): ReactElement => {
         currencyPairId={currencyPair.id}
         onCurrencyPairChange={handleSelectCurrencyPair}
       />
-      <Banner currencyPairId={currencyPair.id} />
-      <HistoricPrices currencyPairId={currencyPair.id} />
+      <ExchangeRateView currencyPairId={currencyPair.id} />
     </>
   );
 };

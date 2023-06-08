@@ -1,20 +1,20 @@
 import { PropsWithChildren, useEffect, useState } from "react";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { useApiCall } from "../../../hooks";
 import { DataTable, ErrorMessage } from "../../../components";
 import XRateChart from "../XRateChart/XRateChart";
-
-import { HighLowColumns, OpenCloseColumns } from "./HistoricPricesColumns";
+import Banner from "../Banner/Banner";
+import { HighLowColumns, OpenCloseColumns } from "./ExchangeRateViewColumns";
 import { ApiCallResult, HistoricData } from "../../../types/api.types";
 import {
   ChartDataTypes,
   HighLowDataTypes,
   OpenCloseDataTypes,
 } from "../../../types/global.types";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import "./HistoricPrices.css";
+import "./ExchangeRateView.css";
 
-interface HistoricPricesProps {
+interface ExchangeRateProps {
   currencyPairId: string;
 }
 
@@ -27,9 +27,9 @@ const InlineWrapperWithMargin = ({ children }: PropsWithChildren<unknown>) => (
 const getUri = (currencyPairId: string) =>
   `${import.meta.env.VITE_BASE_URL}/historic-data/${currencyPairId}`;
 
-export const HistoricPrices = ({
+const ExchangeRateView = ({
   currencyPairId,
-}: HistoricPricesProps): JSX.Element => {
+}: ExchangeRateProps): JSX.Element => {
   const [highLowData, setHighLowData] = useState<HighLowDataTypes[]>([]);
   const [openCloseData, setOpenCloseData] = useState<OpenCloseDataTypes[]>([]);
   const [chartData, setChartData] = useState<ChartDataTypes[]>([]);
@@ -97,13 +97,18 @@ export const HistoricPrices = ({
     );
 
   if (error)
-    return <ErrorMessage message={"An error occurred. Try with another one, please."} />;
+    return (
+      <ErrorMessage
+        message={"An error occurred. Try with another tab, please."}
+      />
+    );
 
   return (
     <>
-      <section className="tables-container">
-        {!!data && Object.values(data).every((value) => value) && (
-          <>
+      {!!data && Object.values(data).every((value) => value) && (
+        <>
+          <Banner currencyPairId={currencyPairId} />
+          <section className="tables-container">
             <div className="data-table-container">
               <label className="table-title">Historic Prices</label>
               <DataTable columns={HighLowColumns} data={highLowData} />
@@ -112,12 +117,14 @@ export const HistoricPrices = ({
               <label className="table-title">Daily Trend</label>
               <DataTable columns={OpenCloseColumns} data={openCloseData} />
             </div>
-          </>
-        )}
-      </section>
-      <section className="chart-container">
-        <XRateChart chartTitle={currencyPairId} data={chartData} />
-      </section>
+          </section>
+          <section className="chart-container">
+            <XRateChart chartTitle={currencyPairId} data={chartData} />
+          </section>
+        </>
+      )}
     </>
   );
 };
+
+export default ExchangeRateView;

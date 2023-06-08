@@ -1,7 +1,7 @@
 import { ReactElement, useCallback, useEffect, useState } from "react";
 import { useWebSocket } from "../../../hooks";
-import { Card } from "../../../components";
 import { WebsocketData } from "../../../types/api.types";
+import { Card } from "../../../components";
 import "./Banner.css";
 
 interface BannerProps {
@@ -10,7 +10,7 @@ interface BannerProps {
 
 const webSocketUri = import.meta.env.VITE_WEBSOCKET_URL;
 
-export const Banner = ({ currencyPairId }: BannerProps): ReactElement => {
+const Banner = ({ currencyPairId }: BannerProps): ReactElement => {
   const [currentExchangeRate, setCurrentExchangeRate] = useState<number>(0);
   const [highestExchangeRate, setHighestExchangeRate] = useState<number>(0);
   const [lowestExchangeRate, setLowestExchangeRate] = useState<number>(0);
@@ -112,3 +112,5 @@ export const Banner = ({ currencyPairId }: BannerProps): ReactElement => {
     </section>
   );
 };
+
+export default Banner;
