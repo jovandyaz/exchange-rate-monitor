@@ -28,6 +28,14 @@ table tbody tr:last-child td {
 }
 
 table tbody tr:hover {
-  background: #7a7575;
+  background: #dca312;
   transition: background-color 0.3s ease;
+}
+
+.table-body_cell .green {
+  color: #00ff00;
+}
+
+.table-body_cell .red {
+  color: #ff0000;
 }

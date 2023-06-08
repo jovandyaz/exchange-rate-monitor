@@ -58,7 +58,12 @@ export const OpenCloseColumns = [
     id: "difference",
     header: () => "Difference",
     cell: (info) => (
-      <span key={info.column.id}>{info.renderValue() as React.ReactNode}</span>
+      <span
+        className={`${(info.renderValue() as number) > 0 ? "green" : "red"}`}
+        key={info.column.id}
+      >
+        {info.renderValue() as React.ReactNode}
+      </span>
     ),
     footer: (info) => info.column.id,
   }),
