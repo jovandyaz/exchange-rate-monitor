@@ -2,19 +2,20 @@ import { ReactElement, useCallback, useEffect, useState } from "react";
 import { useWebSocket } from "../../../hooks";
 import { WebsocketData } from "../../../types/api.types";
 import { Card } from "../../../components";
+import { stringOrNumber } from "../../../types/global.types";
 import "./Banner.css";
 
 interface BannerProps {
   currencyPairId: string;
+  openPrice: stringOrNumber;
 }
 
 const webSocketUri = import.meta.env.VITE_WEBSOCKET_URL;
 
-const Banner = ({ currencyPairId }: BannerProps): ReactElement => {
+const Banner = ({ currencyPairId, openPrice }: BannerProps): ReactElement => {
   const [currentExchangeRate, setCurrentExchangeRate] = useState<number>(0);
   const [highestExchangeRate, setHighestExchangeRate] = useState<number>(0);
   const [lowestExchangeRate, setLowestExchangeRate] = useState<number>(0);
-  // const [error, setError] = useState<Error | null>(null);
 
   const [websocketData, setWebsocketData] = useState<WebsocketData>({
     currency: "",
@@ -38,8 +39,7 @@ const Banner = ({ currencyPairId }: BannerProps): ReactElement => {
       const message = JSON.parse(event.data) as WebsocketData;
       setWebsocketData(message);
     } catch (error: unknown) {
-      // console.log("🚀 ~ handleOnMessage ~ error:", error);
-      // setError(error as Error | null);
+      // TODO: handle error
     }
   };
 
@@ -86,12 +86,11 @@ const Banner = ({ currencyPairId }: BannerProps): ReactElement => {
     getExchangeRates();
   }, [getExchangeRates]);
 
-  // if (error) return <p>Error: {error.message}</p>;
-
   return (
     <section className="banner-container">
       <Card title="Currency Pair" value={currencyPairId} />
       <Card
+        className={`${currentExchangeRate > +openPrice ? "up" : "down"}`}
         title="Current Exchange-Rate Value"
         value={currentExchangeRate.toFixed(4)}
       />

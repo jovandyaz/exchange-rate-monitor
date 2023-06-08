@@ -1,6 +1,15 @@
+@media (max-width: 820px) {
+  .banner-container {
+    flex-direction: column;
+  }
+  .card {
+    width: 100%;
+  }
+}
+
 .banner-container {
-    display: flex;
-    margin: 1rem;
-    border: 1px solid #aaa;
-    background: #000;
+  display: flex;
+  margin: 1rem;
+  border: 1px solid #aaa;
+  background: #000;
 }

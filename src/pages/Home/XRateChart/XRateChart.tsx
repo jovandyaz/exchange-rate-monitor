@@ -118,7 +118,7 @@ const XRateChart = ({ chartTitle, data }: XRateChartProps): ReactElement => {
   }, [chartTitle, data]);
 
   return (
-    <div ref={chartRef} style={{ height: "500px", background: "black" }} />
+    <div ref={chartRef} style={{ height: "420px", background: "black" }} />
   );
 };
 

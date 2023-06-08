@@ -107,7 +107,10 @@ const ExchangeRateView = ({
     <>
       {!!data && Object.values(data).every((value) => value) && (
         <>
-          <Banner currencyPairId={currencyPairId} />
+          <Banner
+            currencyPairId={currencyPairId}
+            openPrice={openCloseData[0]?.open}
+          />
           <section className="tables-container">
             <div className="data-table-container">
               <label className="table-title">Historic Prices</label>

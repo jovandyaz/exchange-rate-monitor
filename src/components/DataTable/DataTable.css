@@ -19,12 +19,8 @@ table thead {
 }
 
 table tbody td {
-  padding: 12px;
+  padding: 5px;
   border-bottom: 1px solid #ccc;
-}
-
-table tbody tr:last-child td {
-  border-bottom: none;
 }
 
 table tbody tr:hover {

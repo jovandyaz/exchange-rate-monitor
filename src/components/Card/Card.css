@@ -5,15 +5,21 @@
 }
 
 .card .title {
-    font-size: 0.7rem;
-    color: #aaa;
-    padding: 0.5rem;
-    margin: 0;
+  font-size: 0.7rem;
+  color: #aaa;
+  padding: 0.5rem;
+  margin: 0;
 }
 
-.card .value {
-    font-size: 1rem;
-    font-weight: bold;
-    padding: 0.5rem;
-    margin: 0;
+.card > h2 {
+  margin: 0;
+  padding: 0.5rem;
+}
+
+.value_up {
+  color: #00ff00;
+}
+
+.value_down {
+  color: #ff0000;
 }
