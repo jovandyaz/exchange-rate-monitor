@@ -1,6 +1,6 @@
 import { PropsWithChildren, useEffect, useState } from "react";
 import { useApiCall } from "../../../hooks";
-import { DataTable } from "../../../components";
+import { DataTable, ErrorMessage } from "../../../components";
 import XRateChart from "../XRateChart/XRateChart";
 
 import { HighLowColumns, OpenCloseColumns } from "./HistoricPricesColumns";
@@ -95,7 +95,9 @@ export const HistoricPrices = ({
         <Skeleton />
       </SkeletonTheme>
     );
-  if (error) return <p>Error: {error.message}</p>;
+
+  if (error)
+    return <ErrorMessage message={"An error occurred. Try with another one, please."} />;
 
   return (
     <>
