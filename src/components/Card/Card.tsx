@@ -8,8 +8,8 @@ interface CardProps {
 export const Card = ({ title, value }: CardProps): JSX.Element => {
   return (
     <div className="card">
-      <div className="title">{title}</div>
-      <div className="value">{value}</div>
+      <h1 className="title">{title}</h1>
+      <h2 className="value">{value}</h2>
     </div>
   );
 };

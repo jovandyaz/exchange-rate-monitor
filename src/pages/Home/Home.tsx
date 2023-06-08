@@ -4,6 +4,8 @@ import { useApiCall } from "../../hooks";
 import { Tabs } from "./Tabs";
 import { Banner } from "./Banner";
 import { HistoricPrices } from "./HistoricPrices";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const DEFAULT_CURRENCY_ID = "EURUSD";
 const DEFAULT_CURRENCY_LABEL = "EUR-USD";
@@ -25,7 +27,12 @@ const Home = (): ReactElement => {
     setCurrencyPair(pair);
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <SkeletonTheme baseColor="#202020" highlightColor="#444" height="15rem">
+        <Skeleton />
+      </SkeletonTheme>
+    );
   if (error) return <p>Error: {error.message}</p>;
 
   return (

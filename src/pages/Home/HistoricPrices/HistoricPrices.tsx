@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import { useApiCall } from "../../../hooks";
 import { DataTable } from "../../../components";
 import XRateChart from "../XRateChart/XRateChart";
@@ -10,6 +10,8 @@ import {
   HighLowDataTypes,
   OpenCloseDataTypes,
 } from "../../../types/global.types";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import "./HistoricPrices.css";
 
 interface HistoricPricesProps {
@@ -17,6 +19,10 @@ interface HistoricPricesProps {
 }
 
 type HistoricDataType = HistoricData[];
+
+const InlineWrapperWithMargin = ({ children }: PropsWithChildren<unknown>) => (
+  <span>{children}</span>
+);
 
 const getUri = (currencyPairId: string) =>
   `${import.meta.env.VITE_BASE_URL}/historic-data/${currencyPairId}`;
@@ -77,7 +83,18 @@ export const HistoricPrices = ({
     executeRequest(getUri(currencyPairId));
   }, [currencyPairId, executeRequest]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <SkeletonTheme baseColor="#202020" highlightColor="#444" height="20rem">
+        <Skeleton
+          count={2}
+          wrapper={InlineWrapperWithMargin}
+          inline
+          width="50%"
+        />
+        <Skeleton />
+      </SkeletonTheme>
+    );
   if (error) return <p>Error: {error.message}</p>;
 
   return (
