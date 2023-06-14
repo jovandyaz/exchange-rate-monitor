@@ -5,6 +5,7 @@ import { useApiCall } from "../../hooks";
 import { Tabs } from "./Tabs";
 import ExchangeRateView from "./ExchangeRateView/ExchangeRateView";
 import "react-loading-skeleton/dist/skeleton.css";
+import { ErrorMessage } from "../../components";
 
 const DEFAULT_CURRENCY_ID = "EURUSD";
 const DEFAULT_CURRENCY_LABEL = "EUR-USD";
@@ -32,8 +33,11 @@ const Home = (): ReactElement => {
         <Skeleton />
       </SkeletonTheme>
     );
-  if (error) return <p>Error: {error.message}</p>;
 
+  if (error)
+    return (
+      <ErrorMessage message={"An error occurred. Reload the page, please."} />
+    );
   return (
     <>
       <Tabs

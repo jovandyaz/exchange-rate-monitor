@@ -12,11 +12,16 @@ interface BannerProps {
 
 const webSocketUri = import.meta.env.VITE_WEBSOCKET_URL;
 
+const stringifyMessage = (currencyPairId: string, action: string) =>
+  JSON.stringify({
+    pair: currencyPairId,
+    action,
+  });
+
 const Banner = ({ currencyPairId, openPrice }: BannerProps): ReactElement => {
   const [currentExchangeRate, setCurrentExchangeRate] = useState<number>(0);
   const [highestExchangeRate, setHighestExchangeRate] = useState<number>(0);
   const [lowestExchangeRate, setLowestExchangeRate] = useState<number>(0);
-
   const [websocketData, setWebsocketData] = useState<WebsocketData>({
     currency: "",
     detail: "",
@@ -24,34 +29,56 @@ const Banner = ({ currencyPairId, openPrice }: BannerProps): ReactElement => {
     point: 0,
   });
 
-  const handleOpen = (event: Event) => {
-    const webSocket = event.target as WebSocket;
-    webSocket.send(
-      JSON.stringify({
-        pair: currencyPairId,
-        action: "subscribe",
-      })
-    );
-  };
+  const subscribe = useCallback(
+    (socket: WebSocket | null, currencyPairId: string) => {
+      if (socket?.readyState === WebSocket.OPEN) {
+        socket.send(stringifyMessage(currencyPairId, "subscribe"));
+      }
+    },
+    []
+  );
 
-  const handleOnMessage = (event: MessageEvent) => {
+  const unsubscribe = useCallback(
+    (socket: WebSocket | null, currencyPairId: string) => {
+      if (socket?.readyState === WebSocket.OPEN) {
+        socket.send(stringifyMessage(currencyPairId, "unsubscribe"));
+      }
+    },
+    []
+  );
+
+  const handleOpen = useCallback(
+    (event: Event) => {
+      const webSocket = event.target as WebSocket;
+      subscribe(webSocket, currencyPairId);
+    },
+    [currencyPairId, subscribe]
+  );
+
+  const handleOnMessage = useCallback((event: MessageEvent) => {
     try {
       const message = JSON.parse(event.data) as WebsocketData;
       setWebsocketData(message);
-    } catch (error: unknown) {
-      // TODO: handle error
+    } catch (error) {
+      console.error("Failed to parse WebSocket data:", error);
     }
-  };
+  }, []);
 
-  const handleOnClose = (event: CloseEvent) => {
-    const webSocket = event.target as WebSocket;
-    webSocket.close();
-  };
+  const handleOnClose = useCallback(
+    (event: CloseEvent) => {
+      const webSocket = event.target as WebSocket;
+      if (webSocket?.readyState === WebSocket.CLOSED) {
+        webSocket.close();
+        unsubscribe(webSocket, currencyPairId);
+      }
+    },
+    [currencyPairId, unsubscribe]
+  );
 
-  const handleOnError = (event: Event) => {
+  const handleOnError = useCallback((event: Event) => {
     const webSocket = event.target as WebSocket;
-    webSocket.onerror;
-  };
+    console.error("WebSocket error:", webSocket.onerror);
+  }, []);
 
   useWebSocket(
     webSocketUri,
@@ -84,7 +111,11 @@ const Banner = ({ currencyPairId, openPrice }: BannerProps): ReactElement => {
 
   useEffect(() => {
     getExchangeRates();
-  }, [getExchangeRates]);
+
+    return () => {
+      handleOnClose(new CloseEvent("close"));
+    };
+  }, [currencyPairId, getExchangeRates, handleOnClose]);
 
   return (
     <section className="banner-container">

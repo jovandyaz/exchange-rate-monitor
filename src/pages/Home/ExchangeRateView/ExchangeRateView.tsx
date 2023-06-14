@@ -34,7 +34,7 @@ const ExchangeRateView = ({
   const [openCloseData, setOpenCloseData] = useState<OpenCloseDataTypes[]>([]);
   const [chartData, setChartData] = useState<ChartDataTypes[]>([]);
 
-  const { data, loading, error, executeRequest } = useApiCall<
+  const { data, loading, error, invoke } = useApiCall<
     ApiCallResult<HistoricDataType>
   >(getUri(currencyPairId));
 
@@ -80,8 +80,8 @@ const ExchangeRateView = ({
   }, [data]);
 
   useEffect(() => {
-    executeRequest(getUri(currencyPairId));
-  }, [currencyPairId, executeRequest]);
+    invoke(getUri(currencyPairId));
+  }, [currencyPairId, invoke]);
 
   if (loading)
     return (

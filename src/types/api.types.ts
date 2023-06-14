@@ -5,7 +5,7 @@ export interface ApiCallResult<T> {
   data: T | null;
   loading: boolean;
   error: AxiosError | null;
-  executeRequest: (newUrl: string, newConfig?: AxiosRequestConfig) => void;
+  invoke: (newUrl: string, newConfig?: AxiosRequestConfig) => void;
 }
 
 export interface CurrencyPair {

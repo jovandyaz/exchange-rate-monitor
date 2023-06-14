@@ -1,4 +1,4 @@
-@media (max-width: 820px) {
+@media (width <= 820px) {
   .tables-container {
     flex-direction: column;
   }

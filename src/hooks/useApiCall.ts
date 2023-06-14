@@ -35,7 +35,7 @@ export const useApiCall = <T>(
     }
   }, [url, config]);
 
-  const executeRequest = useCallback(
+  const invoke = useCallback(
     (newUrl: string, newConfig?: AxiosRequestConfig) => {
       setUrl(newUrl);
       setConfig(newConfig || {});
@@ -48,7 +48,7 @@ export const useApiCall = <T>(
   }, [fetchData]);
 
   return useMemo(
-    () => ({ data, loading, error, executeRequest }),
-    [data, loading, error, executeRequest]
+    () => ({ data, loading, error, invoke }),
+    [data, loading, error, invoke]
   );
 };
